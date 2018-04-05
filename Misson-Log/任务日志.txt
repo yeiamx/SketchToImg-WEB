@@ -1,4 +1,4 @@
-Day0 
+Day1
 清明节 下了一整天的雨，白天的事情也不大顺利。晚上安静下来，cant be a better timing to start my personal project.
 做什么呢? 之前有考虑过，时间是一个星期不到，所以项目的规模不能大，但又要做得出彩的话，那么能确定的一点就是一定得做自己熟悉的方面了。
 那么我熟悉的有什么呢 deep learning好像不错，无论是兴趣还是实验室的原因一直有在接触，而且有意思的东西很多。还有之前参与两个的项目都是WEB项目，那么不如就做一个DL方面的WEB服务好了。
@@ -6,8 +6,9 @@ Day0
 自己复现的时候也没少参考原作者的实现，还是要回顾一下pix2pix的tensorflow实现，弄懂了以后就直接调吧，from scratch是不可能了，希望不要被判copy。
 
 评估一下难度，着实不小。每个方面都不算简单，而且要把他们合在一起呈现，个人觉得难度可以有两人项目的程度了。给我的感觉是好像能做但又不大确定，一般这种情况使使劲是能做出来的。
-交这个作业大可在数据结构、游戏开发的大作业里二选一交一个上去，但是boring，isnt it。就试试看吧，做到什么程度就什么程度吧，do what I wanna do。
+交这个作业本大可在数据结构、游戏开发的大作业里二选一交一个上去，但是boring，isnt it。就试试看吧，做到什么程度就什么程度吧，do what I wanna do。
 
-1.回顾pix2pix(optional) 下载pretrained ATOB 在本地实现。
+1.回顾pix2pix(optional) 下载pretrained ATOB 在本地实现。 OK
 2.实现jsp上的画布功能
-3.服务器的环境搭建（java and tomcat在课上已完成 还需python以及tensorflow等等）
+3.服务器的环境搭建（java and tomcat在课上已完成 还需python以及tensorflow等等）  OK
+

@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
 	<h2>Hello</h2>
 	<p>We are now at V1.0.9</p>
 </body>
