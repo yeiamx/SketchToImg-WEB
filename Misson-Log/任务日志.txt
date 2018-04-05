@@ -12,3 +12,7 @@ Day1
 2.实现jsp上的画布功能
 3.服务器的环境搭建（java and tomcat在课上已完成 还需python以及tensorflow等等）  OK
 
+its not too late to make some mistakes。决定放弃使用jsp了，还要去调用python脚本，感觉有点多此一举，决定使用flask OR Django.虽然需要学习，但是成本似乎会低一点。
+
+
+
