@@ -14,5 +14,12 @@ Day1
 
 its not too late to make some mistakes。决定放弃使用jsp了，还要去调用python脚本，感觉有点多此一举，决定使用flask OR Django.虽然需要学习，但是成本似乎会低一点。
 
+Day2
+早上就有预感今天的工作会比较hard，不过磕磕绊绊也算有所进展，没有偏离轨道。上午学习了一下Django，然后卡在了canvas的图片传输上面。最后下午靠着stackoverflow七搞八搞搞通了。
+晚上开始着手plug In pix2pix到Django服务器里，靠自己直觉写了一通，一跑tensorflow报一大堆错。但是tensorflow就是这个鬼样，明明一个小错误它也要给你报一堆你看不懂的错误提示。So，Debug。
+最后靠着在原项目（pix2pix）重现错误的方式发现图片有问题，只要是canvas那边传过来的图片就不行，本地自己画的图片就OK。估计是canvas传回来的图片channel数不对吧，明天再弄吧。
+
+希望明天能彻底利用本地服务器实现Sketch2Img。
+
 
 
