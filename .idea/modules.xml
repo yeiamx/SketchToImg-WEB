@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SketchToImg-WEB.iml" filepath="$PROJECT_DIR$/.idea/SketchToImg-WEB.iml" />
+      <module fileurl="file://E:/ML/TensorFlow/pix2pix-tensorflow/.idea/pix2pix-tensorflow.iml" filepath="E:/ML/TensorFlow/pix2pix-tensorflow/.idea/pix2pix-tensorflow.iml" />
     </modules>
   </component>
 </project>

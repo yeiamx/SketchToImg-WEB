@@ -15,8 +15,8 @@ import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", help="path to folder containing images")
-parser.add_argument("--mode", required=True, choices=["train", "test", "export"])
-parser.add_argument("--output_dir", required=True, help="where to put output files")
+parser.add_argument("--mode", required=False, choices=["train", "test", "export"])
+parser.add_argument("--output_dir", required=False, help="where to put output files")
 parser.add_argument("--seed", type=int)
 parser.add_argument("--checkpoint", default=None, help="directory with checkpoint to resume training from or use for testing")
 
@@ -46,7 +46,7 @@ parser.add_argument("--gan_weight", type=float, default=1.0, help="weight on GAN
 
 # export options
 parser.add_argument("--output_filetype", default="png", choices=["png", "jpeg"])
-a = parser.parse_args()
+a = parser.parse_args([])
 
 EPS = 1e-12
 CROP_SIZE = 256
@@ -230,9 +230,8 @@ def lab_to_rgb(lab):
         return tf.reshape(srgb_pixels, tf.shape(lab))
 
 
-def load_examples():
-    if a.input_dir is None or not os.path.exists(a.input_dir):
-        raise Exception("input_dir does not exist")
+def load_examples(input_dir):
+    a.input_dir = input_dir
 
     input_paths = glob.glob(os.path.join(a.input_dir, "*.jpg"))
     decode = tf.image.decode_jpeg
@@ -275,16 +274,13 @@ def load_examples():
             b_images = tf.stack([a_chan, b_chan], axis=2)
         else:
             # break apart image pair and move to range [-1, 1]
+            # Since we only evaluate. So we dont provide B images.
             width = tf.shape(raw_input)[1] # [height, width, channels]
-            a_images = preprocess(raw_input[:,:width//2,:])
-            b_images = preprocess(raw_input[:,width//2:,:])
+            a_images = preprocess(raw_input)
+            b_images = preprocess(raw_input)
 
-    if a.which_direction == "AtoB":
+        a.which_direction = "AtoB"
         inputs, targets = [a_images, b_images]
-    elif a.which_direction == "BtoA":
-        inputs, targets = [b_images, a_images]
-    else:
-        raise Exception("invalid direction")
 
     # synchronize seed for image operations so that we do the same operations to both
     # input and output images
@@ -799,5 +795,3 @@ def main():
                 if sv.should_stop():
                     break
 
-
-main()
