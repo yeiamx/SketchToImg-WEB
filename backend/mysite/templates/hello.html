@@ -23,8 +23,8 @@
 
     <body>
         <canvas id="canvas" width="256" height="256"></canvas>
-        <img src="" id="canvas-show"/>
-        <button id="save">SAVE</button>
+        <img id="display" src="" id="canvas-show"/>
+        <button id="clear">CLEAR</button>
         <button id="send">SEND</button>
 
         <script type="text/javascript">
@@ -77,21 +77,23 @@
                 }
             }
 
-            var butSave = document.getElementById("save");
-            butSave.onclick=function(){
-                var img = document.getElementById("canvas-show");
-                var tempSrc = canvas.toDataURL("image/jpg");
-                img.src=tempSrc;
+            var butClear = document.getElementById("clear");
+            butClear.onclick=function(){
+                ctx.clearRect(0,0,c.width,c.height);
             };
             $("#send").click(function(){
                 base64Data = c.toDataURL("image/png", 1.0).substr(22)
-                $.post("http://127.0.0.1:8000/draw/",
+                
+                $.post("http://127.0.0.1:8000/draw/edges2bag",
                 {
                   data : base64Data
                 },
-              function(data,status){
-                //alert("Data: " + base64Data);
-              });
+                function(data,status){
+                   //alert(data)
+                   data = JSON.parse(data);
+                   var img = document.getElementById("display");
+                   img.src = data['result'];
+                });
             });
         </script>
     </body>

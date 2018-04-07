@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http.response import *
 from django.views.decorators.csrf import csrf_exempt
 from PIL import Image
 from .pix2pix import *
@@ -38,8 +39,6 @@ def process():
     # inputs and targets are [batch_size, height, width, channels]
     model = create_model(examples.inputs, examples.targets)
 
-    inputs = deprocess(examples.inputs)
-    targets = deprocess(examples.targets)
     outputs = deprocess(model.outputs)
 
     def convert(image):
@@ -51,28 +50,19 @@ def process():
         return tf.image.convert_image_dtype(image, dtype=tf.uint8, saturate=True)
 
         # reverse any processing on images so they can be written to disk or displayed to user
-    with tf.name_scope("convert_inputs"):
-        converted_inputs = convert(inputs)
-
-    with tf.name_scope("convert_targets"):
-        converted_targets = convert(targets)
-
     with tf.name_scope("convert_outputs"):
         converted_outputs = convert(outputs)
 
     with tf.name_scope("encode_images"):
         display_fetches = {
             "paths": examples.paths,
-            "inputs": tf.map_fn(tf.image.encode_png, converted_inputs, dtype=tf.string, name="input_pngs"),
-            "targets": tf.map_fn(tf.image.encode_png, converted_targets, dtype=tf.string, name="target_pngs"),
             "outputs": tf.map_fn(tf.image.encode_png, converted_outputs, dtype=tf.string, name="output_pngs"),
         }
 
     saver = tf.train.Saver(max_to_keep=1)
-    logdir = a.output_dir if (a.trace_freq > 0 or a.summary_freq > 0) else None
+    logdir = None
     sv = tf.train.Supervisor(logdir=logdir, save_summaries_secs=0, saver=None)
     with sv.managed_session() as sess:
-
         if a.checkpoint is not None:
             print("loading model from checkpoint")
             checkpoint = tf.train.latest_checkpoint(a.checkpoint)
@@ -85,7 +75,6 @@ def process():
             max_steps = a.max_steps
         # testing
         # at most, process the test data once
-        start = time.time()
         max_steps = min(examples.steps_per_epoch, max_steps)
         for step in range(max_steps):
             results = sess.run(display_fetches)
@@ -97,7 +86,12 @@ def process():
 def index(request):
     context = {}
     #context['hello'] = 'Hello World! (draw version)'
-    #context['imgUrl'] = 'imgs/Irene.jpg'
+    #context['imgUrl'] = ''
+
+    return render(request, 'hello.html', context)
+
+@csrf_exempt
+def edges2bag(request):
     if request.method == 'POST':
         #print(request.POST.get('data'))
 
@@ -117,11 +111,20 @@ def index(request):
 
         background = Image.new("RGB", input_img.size, (255, 255, 255))
         background.paste(input_img, mask=input_img.split()[3]) # 3 is the alpha channel
-
         background.save('d:\\test_draw_input\\test_draw.jpg', 'JPEG', quality=80)
 
         print('processing local edge pic...')
         process()
-        print('processing done')
 
-    return render(request, 'hello.html', context)
+        print('passing pic data...')
+        with open("d:\\test_draw_output\\images\\test_draw-outputs.png","rb") as f:
+            # b64encode是编码，b64decode是解码
+            base64_data = base64.b64encode(f.read())
+            # base64.b64decode(base64data)
+        print('Done!')
+        base64_data_str = str(base64_data).split('\'')[1]
+
+        return HttpResponse(json.dumps({
+                "status": 'success',
+                "result": 'data:image/png;base64,'+base64_data_str
+            }))
