@@ -101,16 +101,24 @@ def index(request):
     if request.method == 'POST':
         #print(request.POST.get('data'))
 
-        #dataStr = str(request.POST.get('data'))
+        dataStr = str(request.POST.get('data'))
         #print(dataStr)
-        #print('saving...')
-        #ori_image_data = base64.b64decode(dataStr)
-        #print(image_arr.shape)
+        print('saving...')
+        ori_image_data = base64.b64decode(dataStr)
 
-        #fout = open('d:\\test_draw_input\\test_draw.png', 'wb')
-        #fout.write(ori_image_data)
-        #fout.close()
-        #print('saving done')
+        fout = open('d:\\test_draw_input\\test_draw.jpg', 'wb')
+        fout.write(ori_image_data)
+        fout.close()
+
+        print('processing input downto 24 bit(RGB)')
+        #A bad solution to process input to 24 bit
+        input_img = Image.open("d:\\test_draw_input\\test_draw.jpg")
+        input_img.load() # required for png.split()
+
+        background = Image.new("RGB", input_img.size, (255, 255, 255))
+        background.paste(input_img, mask=input_img.split()[3]) # 3 is the alpha channel
+
+        background.save('d:\\test_draw_input\\test_draw.jpg', 'JPEG', quality=80)
 
         print('processing local edge pic...')
         process()
