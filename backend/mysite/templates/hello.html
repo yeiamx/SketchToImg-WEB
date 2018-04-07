@@ -81,9 +81,13 @@
             butClear.onclick=function(){
                 ctx.clearRect(0,0,c.width,c.height);
             };
+            var butSend = document.getElementById("send");
             $("#send").click(function(){
                 base64Data = c.toDataURL("image/png", 1.0).substr(22)
-                
+                butSend.disabled=true
+                butSend.innerHtml="Pending..."
+                alert("It takes a few minutes, be patient.")
+
                 $.post("http://127.0.0.1:8000/draw/edges2bag",
                 {
                   data : base64Data
@@ -93,6 +97,9 @@
                    data = JSON.parse(data);
                    var img = document.getElementById("display");
                    img.src = data['result'];
+
+                   butSend.disabled=false
+                   butSend.innerHtml="SEND"
                 });
             });
         </script>

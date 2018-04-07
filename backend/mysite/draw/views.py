@@ -7,6 +7,9 @@ import io
 import numpy as np
 import base64
 
+OUTPUT_DIR = 'D://test_draw_output'
+CHECKPOINT_DIR = 'E://ML//TensorFlow//pix2pix-tensorflow//edges2shoes_AtoB'
+INPUT_DIR = 'D://test_draw_input'
 
 def process():
     if a.seed is None:
@@ -16,11 +19,11 @@ def process():
     np.random.seed(a.seed)
     random.seed(a.seed)
 
-    a.output_dir = 'D://test_draw_output'
+    a.output_dir = OUTPUT_DIR
     if not os.path.exists(a.output_dir):
         os.makedirs(a.output_dir)
 
-    a.checkpoint = 'E://ML//TensorFlow//pix2pix-tensorflow//edges2shoes_AtoB'
+    a.checkpoint = CHECKPOINT_DIR
 
     # load some options from the checkpoint
     options = {"which_direction", "ngf", "ndf", "lab_colorization"}
@@ -33,7 +36,7 @@ def process():
     a.scale_size = CROP_SIZE
     a.flip = False
 
-    examples = load_examples('D://test_draw_input')
+    examples = load_examples(INPUT_DIR)
     print("examples count = %d" % examples.count)
 
     # inputs and targets are [batch_size, height, width, channels]
@@ -100,24 +103,24 @@ def edges2bag(request):
         print('saving...')
         ori_image_data = base64.b64decode(dataStr)
 
-        fout = open('d:\\test_draw_input\\test_draw.jpg', 'wb')
+        fout = open(INPUT_DIR+'//test_draw.jpg', 'wb')
         fout.write(ori_image_data)
         fout.close()
 
         print('processing input downto 24 bit(RGB)')
         #A bad solution to process input to 24 bit
-        input_img = Image.open("d:\\test_draw_input\\test_draw.jpg")
+        input_img = Image.open(INPUT_DIR+"//test_draw.jpg")
         input_img.load() # required for png.split()
 
         background = Image.new("RGB", input_img.size, (255, 255, 255))
         background.paste(input_img, mask=input_img.split()[3]) # 3 is the alpha channel
-        background.save('d:\\test_draw_input\\test_draw.jpg', 'JPEG', quality=80)
+        background.save(INPUT_DIR+"//test_draw.jpg", 'JPEG', quality=80)
 
         print('processing local edge pic...')
         process()
 
         print('passing pic data...')
-        with open("d:\\test_draw_output\\images\\test_draw-outputs.png","rb") as f:
+        with open(OUTPUT_DIR+"//images//test_draw-outputs.png","rb") as f:
             # b64encode是编码，b64decode是解码
             base64_data = base64.b64encode(f.read())
             # base64.b64decode(base64data)
