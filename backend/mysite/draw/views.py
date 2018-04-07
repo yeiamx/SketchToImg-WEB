@@ -6,10 +6,13 @@ from .pix2pix import *
 import io
 import numpy as np
 import base64
+import logging
 
 OUTPUT_DIR = 'D://test_draw_output'
 CHECKPOINT_DIR = 'E://ML//TensorFlow//pix2pix-tensorflow//edges2shoes_AtoB'
 INPUT_DIR = 'D://test_draw_input'
+
+logger = logging.getLogger('django')
 
 def process():
     if a.seed is None:

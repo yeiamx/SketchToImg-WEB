@@ -12,7 +12,7 @@ Day1
 2.实现jsp上的画布功能
 3.服务器的环境搭建（java and tomcat在课上已完成 还需python以及tensorflow等等）  OK
 
-its not too late to make some mistakes。决定放弃使用jsp了，还要去调用python脚本，感觉有点多此一举，决定使用flask OR Django.虽然需要学习，但是成本似乎会低一点。
+its not too late to make some mistakes。决定放弃使用jsp了，还要去调用python脚本，感觉有点多此一举，决定使用flask OR Django.哪个简单用哪个吧。 虽然需要学习，但是成本似乎会低一点。
 
 Day2
 早上就有预感今天的工作会比较hard，不过磕磕绊绊也算有所进展，没有偏离轨道。上午学习了一下Django，然后卡在了canvas的图片传输上面。最后下午靠着stackoverflow七搞八搞搞通了。
@@ -20,6 +20,11 @@ Day2
 最后靠着在原项目（pix2pix）重现错误的方式发现图片有问题，只要是canvas那边传过来的图片就不行，本地自己画的图片就OK。估计是canvas传回来的图片channel数不对吧，明天再弄吧。
 
 希望明天能彻底利用本地服务器实现Sketch2Img。
+
+Day3
+今天进度还不错，算是达成一个milestone了，在本地实现了Sketch2Img后部署到服务器上的过程果然艰辛。django在apache上的部署有点繁琐，没有tomcat简单，要注意端口的配置。还有总是报permisson denied，
+我简单粗暴直接把文件的拥有者改成了www-data(apache运行者) 但是个bad solution，应该使用group的方式，算是一个隐患吧。现在残留的问题还有速度问题，或者是显示进度，但是已经是能demo的程度了。
+
 
 
 
