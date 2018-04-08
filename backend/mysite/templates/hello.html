@@ -100,6 +100,10 @@
 
                    butSend.disabled=false
                    butSend.innerHtml="SEND"
+                }).fail(function(){
+                   butSend.disabled=false
+                   butSend.innerHtml="SEND"
+                   alert("啊，可恶的服务器。为什么不试试刷新一下呢？");
                 });
             });
         </script>

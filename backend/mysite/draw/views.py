@@ -81,12 +81,11 @@ def process():
             max_steps = a.max_steps
         # testing
         # at most, process the test data once
-        max_steps = min(examples.steps_per_epoch, max_steps)
-        for step in range(max_steps):
-            results = sess.run(display_fetches)
-            filesets = save_images(results)
-            for i, f in enumerate(filesets):
-                print("evaluated image", f["name"])
+
+        results = sess.run(display_fetches)
+        filesets = save_images(results)
+        for i, f in enumerate(filesets):
+            print("evaluated image", f["name"])
 
 @csrf_exempt
 def index(request):
